@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f14ad797fcee4c1fa4bdacf0c86e5c54, type: 3}
+  m_Name: CubesSettings
+  m_EditorClassIdentifier: 
+  cubeSettings:
+  - cubeType: 1
+    cubeSprite: {fileID: 21300000, guid: ee2b2bb9d775f114a821734d71da63cf, type: 3}
+  - cubeType: 4
+    cubeSprite: {fileID: 21300000, guid: bb54d28b441cb88408b02f2fe94249da, type: 3}
+  - cubeType: 5
+    cubeSprite: {fileID: 21300000, guid: df077651f011dcb478ceee7ca7a9e815, type: 3}
+  - cubeType: 6
+    cubeSprite: {fileID: 21300000, guid: 26935eed2307ff344ad09ef76f355275, type: 3}
+  - cubeType: 2
+    cubeSprite: {fileID: 21300000, guid: 48d6674adadf6f14db09bc51f5308302, type: 3}
+  - cubeType: 7
+    cubeSprite: {fileID: 21300000, guid: 6de59d3d2b85ff945914f3c356e5507b, type: 3}
+  - cubeType: 3
+    cubeSprite: {fileID: 21300000, guid: b60c4d904b70f3e4ca8c042245e17f48, type: 3}
+  - cubeType: 8
+    cubeSprite: {fileID: 21300000, guid: 044837864e6e22d4ea0a5696b373d7bb, type: 3}
+  - cubeType: 9
+    cubeSprite: {fileID: 21300000, guid: 524bf7049ddc1214ba4faee1e6db0c5a, type: 3}
+  - cubeType: 10
+    cubeSprite: {fileID: 21300000, guid: f11e7aafc8f349d4fa1324026c3edcba, type: 3}
+  - cubeType: 11
+    cubeSprite: {fileID: 21300000, guid: d202690dca716b944a9445b912dc71d1, type: 3}
+  - cubeType: 12
+    cubeSprite: {fileID: 21300000, guid: e58c3d1e6a833e642a4bdeb40e1b9452, type: 3}
+  - cubeType: 13
+    cubeSprite: {fileID: 21300000, guid: d09d57663393f1747bc5271499ea1236, type: 3}
+  - cubeType: 14
+    cubeSprite: {fileID: 21300000, guid: 3a5936f603c92d043add9a287b427da1, type: 3}
+  - cubeType: 15
+    cubeSprite: {fileID: 21300000, guid: 750da6d77f97b5349a8a7a05dc851add, type: 3}
+  - cubeType: 16
+    cubeSprite: {fileID: 21300000, guid: a5e2c0ed7da14a541ad7142fdd901864, type: 3}
+  - cubeType: 17
+    cubeSprite: {fileID: 21300000, guid: 8dc2c0c0873538d4da996c2f3bdd5a7c, type: 3}
+  - cubeType: 18
+    cubeSprite: {fileID: 21300000, guid: 117f966f4f392984b8bd1d56e2eee664, type: 3}
+  - cubeType: 19
+    cubeSprite: {fileID: 21300000, guid: 08d4352954c0e1b4e990241f12020b87, type: 3}
+  - cubeType: 20
+    cubeSprite: {fileID: 21300000, guid: 0d336208bd1e9e74fa13a3c8f57721f2, type: 3}
