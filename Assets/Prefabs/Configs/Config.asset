@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d82c24811644f079b07c60c2f91443d, type: 3}
+  m_Name: Config
+  m_EditorClassIdentifier: 
+  data:
+    cubesConfig:
+      cubesSpawnCount: 20
+      spawnOffsetPercent: 0.5
+      cubeConfigsList:
+      - cubeType: 1
+      - cubeType: 4
+      - cubeType: 5
+      - cubeType: 6
+      - cubeType: 2
+      - cubeType: 7
+      - cubeType: 3
+      - cubeType: 8
+      - cubeType: 9
+      - cubeType: 10
+      - cubeType: 11
+      - cubeType: 12
+      - cubeType: 13
+      - cubeType: 14
+      - cubeType: 15
+      - cubeType: 16
+      - cubeType: 17
+      - cubeType: 18
+      - cubeType: 19
+      - cubeType: 20
