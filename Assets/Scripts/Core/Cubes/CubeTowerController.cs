@@ -43,17 +43,9 @@ namespace Core.Cubes
             return canPlaceNextCube && isCubeHitOnTower;
         }
 
-        public int GetCubesCount()
+        public int GetCubesStackedCount()
         {
             return _stackedCubes.Count;
-        }
-
-        public void PlaceFirstCube(CubeType cubeType, Vector2 screenPos)
-        {
-            var newCube = CreateCube(cubeType);
-            var newRect = newCube.GetRect();
-
-            newRect.position = screenPos;
         }
 
         public void RemoveCube(Cube cube)
@@ -64,14 +56,31 @@ namespace Core.Cubes
 
             var stackedCube = _stackedCubes[index];
             _stackedCubes.RemoveAt(index);
+            _cubesService.RemoveCubeData(cube.Id);
             Destroy(stackedCube.gameObject);
 
             for (var i = index; i < _stackedCubes.Count; i++)
             {
                 var towerCube = _stackedCubes[i];
                 var rect = towerCube.GetRect();
-                towerCube.StartFallAnimation(rect, rect.rect.height);
+                towerCube.StartFallAnimation(rect, rect.rect.height,
+                    () => { _cubesService.RewriteCubePosition(towerCube.Id, rect); });
             }
+        }
+
+        public void SetStackedCube(Cube cube)
+        {
+            _stackedCubes.Add(cube);
+        }
+
+        public void PlaceFirstCube(CubeType cubeType, Vector2 screenPos)
+        {
+            var newCube = CreateCube(cubeType);
+            var newRect = newCube.GetRect();
+
+            newRect.position = screenPos;
+            var anchoredPosition = new Vector2(newRect.anchoredPosition.x, newRect.anchoredPosition.y);
+            _cubesService.CreateCubeData(cubeType, anchoredPosition, newCube.Id);
         }
 
         public void PlaceNextCube(CubeType cubeType, Vector2 startDragPosition)
@@ -91,6 +100,7 @@ namespace Core.Cubes
             newRect.position = startDragPosition;
 
             newCube.StartJumpAnimation(newRect, position);
+            _cubesService.CreateCubeData(cubeType, position, newCube.Id);
         }
 
         private bool IsCubeHitOnTower()
@@ -176,7 +186,10 @@ namespace Core.Cubes
         private Cube CreateCube(CubeType cubeType)
         {
             var cube = _cubesFactory.CreateCube(cubeType, cubesRoot);
-            _stackedCubes.Add(cube);
+            var cubeId = _cubesFactory.CreateCubeId();
+
+            cube.SetId(cubeId);
+            SetStackedCube(cube);
 
             return cube;
         }

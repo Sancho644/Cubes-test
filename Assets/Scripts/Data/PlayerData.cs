@@ -6,6 +6,6 @@ namespace Data
     [Serializable]
     public class PlayerData
     {
-        public CubesData cubesData;
+        public CubesData cubesData = new();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Core.Cubes.Config;
+﻿using System;
+using Core.Cubes.Config;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +17,13 @@ namespace Core.Cubes
             cube.Setup(cubeType);
 
             return cube;
+        }
+
+        public string CreateCubeId()
+        {
+            var cubeId = Guid.NewGuid().ToString();
+
+            return cubeId;
         }
     }
 }

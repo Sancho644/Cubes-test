@@ -2,8 +2,10 @@
 using System.Linq;
 using Config;
 using Core.Cubes.Config;
+using Core.Cubes.Data;
 using Data;
 using GameEvents;
+using ModestTree;
 using UI;
 using UI.Events;
 using UnityEngine;
@@ -39,6 +41,24 @@ namespace Core.Cubes.Services
             return cubesForSpawn;
         }
 
+        public void CreateCubeData(CubeType cubeType, Vector2 position, string id)
+        {
+            _playerDataContainer.Data.cubesData.CreateCubeData(cubeType, position, id);
+            _playerDataContainer.MarkPlayerDataIsDirty();
+        }
+
+        public void RemoveCubeData(string id)
+        {
+            _playerDataContainer.Data.cubesData.RemoveCubeData(id);
+            _playerDataContainer.MarkPlayerDataIsDirty();
+        }
+
+        public void RewriteCubePosition(string cubeId, RectTransform rect)
+        {
+            _playerDataContainer.Data.cubesData.RewriteCubePosition(cubeId, rect);
+            _playerDataContainer.MarkPlayerDataIsDirty();
+        }
+
         public void RegisterCubeTower(CubeTowerController towerController)
         {
             _towerController = towerController;
@@ -72,7 +92,7 @@ namespace Core.Cubes.Services
                 return;
             }
 
-            var cubesCount = _towerController.GetCubesCount();
+            var cubesCount = _towerController.GetCubesStackedCount();
             if (cubesCount == 0)
             {
                 _towerController.PlaceFirstCube(cubeType, screenPos);
@@ -109,6 +129,26 @@ namespace Core.Cubes.Services
 
             _towerController.RemoveCube(cube);
             _gameEventsDispatcher.Dispatch(new CubeActionEvent(CubeActionType.Destroy));
+        }
+
+        public bool HasCubesData()
+        {
+            return !_playerDataContainer.Data.cubesData.cubeDataList.IsEmpty();
+        }
+
+        public List<ConcreteCubeData> GetCubesDataList()
+        {
+            return _playerDataContainer.Data.cubesData.cubeDataList;
+        }
+
+        public void SetStackedCube(Cube cube)
+        {
+            if (_towerController == null)
+            {
+                return;
+            }
+
+            _towerController.SetStackedCube(cube);
         }
     }
 }

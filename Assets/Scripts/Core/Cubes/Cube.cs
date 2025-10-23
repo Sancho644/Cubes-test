@@ -1,3 +1,4 @@
+using System;
 using Core.Cubes.Services;
 using GameEvents;
 using UI;
@@ -14,9 +15,8 @@ namespace Core.Cubes
         [SerializeField] private RectTransform rect;
         [SerializeField] private CanvasGroup canvasGroup;
 
-        [Header("Animations")] [SerializeField]
-        private JumpTween jumpTween;
-
+        [Header("Animations")] 
+        [SerializeField] private JumpTween jumpTween;
         [SerializeField] private FallTween fallTween;
         [SerializeField] private ExplosionTween explosionTween;
         [SerializeField] private FadeTween fadeTween;
@@ -26,6 +26,7 @@ namespace Core.Cubes
         [Inject] private readonly IGameEventsDispatcher _gameEventsDispatcher;
 
         public RectTransform GetRect() => rect;
+        public string Id { get; private set; }
 
         private Cube _dragCube;
         private RectTransform _dragCubeRect;
@@ -90,6 +91,7 @@ namespace Core.Cubes
             else
             {
                 _gameEventsDispatcher.Dispatch(new CubeActionEvent(CubeActionType.CanNotPlace));
+                _gameEventsDispatcher.Dispatch(new CubeActionEvent(CubeActionType.Destroy));
             }
 
             if (!placed)
@@ -110,9 +112,14 @@ namespace Core.Cubes
             jumpTween.StartAnimation(targetRect, endPosition);
         }
 
-        public void StartFallAnimation(RectTransform targetRect, float height)
+        public void SetId(string id)
         {
-            fallTween.StartAnimation(targetRect, height);
+            Id = id;
+        }
+
+        public void StartFallAnimation(RectTransform targetRect, float height, Action onComplete = null)
+        {
+            fallTween.StartAnimation(targetRect, height, onComplete);
         }
 
         private void StartExplosionTween()
