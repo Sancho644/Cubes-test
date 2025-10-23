@@ -10,6 +10,7 @@ namespace Core.Cubes
     {
         [SerializeField] private Canvas canvas;
         [SerializeField] private RectTransform towerAreaRect;
+        [SerializeField] private RectTransform cubesRoot;
 
         [Inject] private readonly CubesService _cubesService;
         [Inject] private readonly CubesFactory _cubesFactory;
@@ -17,7 +18,7 @@ namespace Core.Cubes
         public RectTransform TowerAreaRect => towerAreaRect;
         public Canvas Canvas => canvas;
 
-        private readonly List<RectTransform> _stackedCubes = new();
+        private readonly List<Cube> _stackedCubes = new();
 
         private void Awake()
         {
@@ -42,26 +43,27 @@ namespace Core.Cubes
             return canPlaceNextCube && isCubeHitOnTower;
         }
 
-        public void PlaceCube(CubeType cubeType, Vector2 screenPos)
+        public void PlaceCube(CubeType cubeType, Vector2 screenPos, Vector2 startDragPosition)
         {
             var cubesCount = _stackedCubes.Count;
 
             if (cubesCount == 0)
             {
-                var newCube = CreateCube(cubeType, transform);
+                var newCube = CreateCube(cubeType);
                 var newRect = newCube.GetRect();
 
                 newRect.position = screenPos;
             }
             else
             {
-                PlaceNextCube(cubeType);
+                PlaceNextCube(cubeType, startDragPosition);
             }
         }
 
         private bool IsCubeHitOnTower()
         {
-            var topRect = _stackedCubes[^1];
+            var topCube = _stackedCubes[^1];
+            var topRect = topCube.GetRect();
             var worldCorners = new Vector3[4];
             topRect.GetWorldCorners(worldCorners);
 
@@ -71,9 +73,10 @@ namespace Core.Cubes
             return RectTransformUtility.RectangleContainsScreenPoint(topRect, mousePos, cam);
         }
 
-        private void PlaceNextCube(CubeType cubeType)
+        private void PlaceNextCube(CubeType cubeType, Vector2 startDragPosition)
         {
-            var topRect = _stackedCubes[^1];
+            var topCube = _stackedCubes[^1];
+            var topRect = topCube.GetRect();
             var worldCorners = new Vector3[4];
             topRect.GetWorldCorners(worldCorners);
             var cubeHeight = topRect.rect.height;
@@ -82,10 +85,11 @@ namespace Core.Cubes
             var randOffset = Random.Range(-maxOffset, maxOffset);
             var topAnch = topRect.anchoredPosition;
             var position = topAnch + new Vector2(randOffset, cubeHeight);
-            var newCube = CreateCube(cubeType, transform);
+            var newCube = CreateCube(cubeType);
             var newRect = newCube.GetRect();
+            newRect.position = startDragPosition;
 
-            newRect.anchoredPosition = position;
+            newCube.StartJumpAnimation(newRect, position);
         }
 
         private bool CanPlaceNextCube()
@@ -95,7 +99,8 @@ namespace Core.Cubes
                 return true;
             }
 
-            var topRect = _stackedCubes[^1];
+            var topCube = _stackedCubes[^1];
+            var topRect = topCube.GetRect();
             var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
 
             var topWorldCorners = new Vector3[4];
@@ -154,14 +159,30 @@ namespace Core.Cubes
             }
         }
 
-        private Cube CreateCube(CubeType cubeType, Transform root)
+        private Cube CreateCube(CubeType cubeType)
         {
-            var cube = _cubesFactory.CreateCube(cubeType, root);
-            var cubeRect = cube.GetRect();
-
-            _stackedCubes.Add(cubeRect);
+            var cube = _cubesFactory.CreateCube(cubeType, cubesRoot);
+            _stackedCubes.Add(cube);
 
             return cube;
+        }
+
+        public void RemoveCube(Cube cube)
+        {
+            var index = _stackedCubes.IndexOf(cube);
+            if (index == -1)
+                return;
+
+            var stackedCube = _stackedCubes[index];
+            _stackedCubes.RemoveAt(index);
+            Destroy(stackedCube.gameObject);
+
+            for (var i = index; i < _stackedCubes.Count; i++)
+            {
+                var towerCube = _stackedCubes[i];
+                var rect = towerCube.GetRect();
+                towerCube.StartFallAnimation(rect, rect.rect.height);
+            }
         }
     }
 }

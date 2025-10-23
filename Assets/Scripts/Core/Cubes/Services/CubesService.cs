@@ -14,6 +14,7 @@ namespace Core.Cubes.Services
         [Inject] private readonly PlayerDataContainer _playerDataContainer;
 
         private CubeTowerController _towerController;
+        private CubeRemoveHoleController _removeHoleController;
 
         public List<CubeType> GetCubesForSpawn()
         {
@@ -39,6 +40,11 @@ namespace Core.Cubes.Services
             _towerController = towerController;
         }
 
+        public void RegisterRemoveHole(CubeRemoveHoleController removeHoleController)
+        {
+            _removeHoleController = removeHoleController;
+        }
+
         public bool CubeCanPlaceAtTower(Vector2 screenPos)
         {
             if (_towerController == null)
@@ -49,7 +55,7 @@ namespace Core.Cubes.Services
             return _towerController.CanPlaceAtTower(screenPos);
         }
 
-        public void TryPlaceAtTowerScreen(CubeType cubeType, Vector2 screenPos)
+        public void TryPlaceAtTowerScreen(CubeType cubeType, Vector2 screenPos, Vector2 startDragPosition)
         {
             if (_towerController == null)
             {
@@ -62,12 +68,32 @@ namespace Core.Cubes.Services
                 return;
             }
 
-            _towerController.PlaceCube(cubeType, screenPos);
+            _towerController.PlaceCube(cubeType, screenPos, startDragPosition);
         }
 
         public float GetCubeSpawnHorizontalOffset()
         {
             return _configData.cubesConfig.spawnOffsetPercent;
+        }
+
+        public bool CubeInsideRemoveHole()
+        {
+            if (_removeHoleController == null)
+            {
+                return false;
+            }
+
+            return _removeHoleController.IsInsideHole();
+        }
+
+        public void RemoveCubeFromTower(Cube cube)
+        {
+            if (_towerController == null)
+            {
+                return;
+            }
+
+            _towerController.RemoveCube(cube);
         }
     }
 }
