@@ -36,9 +36,10 @@ namespace Core.Cubes
                 return true;
             }
 
+            var isCubeHitOnTower = IsCubeHitOnTower();
             var canPlaceNextCube = CanPlaceNextCube();
 
-            return canPlaceNextCube;
+            return canPlaceNextCube && isCubeHitOnTower;
         }
 
         public void PlaceCube(CubeType cubeType, Vector2 screenPos)
@@ -54,20 +55,37 @@ namespace Core.Cubes
             }
             else
             {
-                var topRect = _stackedCubes[^1];
-                var worldCorners = new Vector3[4];
-                topRect.GetWorldCorners(worldCorners);
-                var cubeHeight = topRect.rect.height;
-                var horizontalOffset = _cubesService.GetCubeSpawnHorizontalOffset();
-                var maxOffset = topRect.rect.width * horizontalOffset * 0.5f;
-                var randOffset = Random.Range(-maxOffset, maxOffset);
-                var topAnch = topRect.anchoredPosition;
-                var position = topAnch + new Vector2(randOffset, cubeHeight);
-                var newCube = CreateCube(cubeType, transform);
-                var newRect = newCube.GetRect();
-
-                newRect.anchoredPosition = position;
+                PlaceNextCube(cubeType);
             }
+        }
+
+        private bool IsCubeHitOnTower()
+        {
+            var topRect = _stackedCubes[^1];
+            var worldCorners = new Vector3[4];
+            topRect.GetWorldCorners(worldCorners);
+
+            var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+            Vector2 mousePos = Input.mousePosition;
+
+            return RectTransformUtility.RectangleContainsScreenPoint(topRect, mousePos, cam);
+        }
+
+        private void PlaceNextCube(CubeType cubeType)
+        {
+            var topRect = _stackedCubes[^1];
+            var worldCorners = new Vector3[4];
+            topRect.GetWorldCorners(worldCorners);
+            var cubeHeight = topRect.rect.height;
+            var horizontalOffset = _cubesService.GetCubeSpawnHorizontalOffset();
+            var maxOffset = topRect.rect.width * horizontalOffset * 0.5f;
+            var randOffset = Random.Range(-maxOffset, maxOffset);
+            var topAnch = topRect.anchoredPosition;
+            var position = topAnch + new Vector2(randOffset, cubeHeight);
+            var newCube = CreateCube(cubeType, transform);
+            var newRect = newCube.GetRect();
+
+            newRect.anchoredPosition = position;
         }
 
         private bool CanPlaceNextCube()
@@ -94,8 +112,8 @@ namespace Core.Cubes
             var newCubeCenterWorld =
                 topCenterWorld + Vector3.up * (cubeWorldHeight) + Vector3.right * randOffsetWorld;
 
-            var halfRight = (Vector3.right * (cubeWorldWidth * 0.5f));
-            var halfUp = (Vector3.up * (cubeWorldHeight * 0.5f));
+            var halfRight = Vector3.right * (cubeWorldWidth * 0.5f);
+            var halfUp = Vector3.up * (cubeWorldHeight * 0.5f);
             var cornerTL = newCubeCenterWorld + halfUp - halfRight;
             var cornerTR = newCubeCenterWorld + halfUp + halfRight;
             var cornerBL = newCubeCenterWorld - halfUp - halfRight;
@@ -125,15 +143,15 @@ namespace Core.Cubes
             if (!ContainsWithTolerance(allowedScreenRect, screenBL)) return false;
             if (!ContainsWithTolerance(allowedScreenRect, screenBR)) return false;
 
-            bool ContainsWithTolerance(Rect rect, Vector2 point, float tolerance = 50f)
+            return true;
+
+            bool ContainsWithTolerance(Rect rect, Vector2 point, float tolerance = 150f)
             {
                 return point.x >= rect.xMin - tolerance &&
                        point.x <= rect.xMax + tolerance &&
                        point.y >= rect.yMin - tolerance &&
                        point.y <= rect.yMax + tolerance;
             }
-
-            return true;
         }
 
         private Cube CreateCube(CubeType cubeType, Transform root)
