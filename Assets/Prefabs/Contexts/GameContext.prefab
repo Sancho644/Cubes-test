@@ -124,4 +124,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubesSettings: {fileID: 11400000, guid: dd2b883d88023e348ac762e84991f083, type: 2}
+  cubesActionSettings: {fileID: 11400000, guid: 203508e0293a7bc46b6e7ede3595bca5, type: 2}
   cubesFactory: {fileID: 6626686871185280701}
