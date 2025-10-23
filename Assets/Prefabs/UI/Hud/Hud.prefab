@@ -85,6 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3345855714228608670}
+  - component: {fileID: 3418156374768751765}
   - component: {fileID: 1901771348642801248}
   - component: {fileID: 8581814795388477701}
   m_Layer: 5
@@ -113,6 +114,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3418156374768751765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653112057740607619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61848f6963e04c048874e20a8452f28c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  towerAreaRect: {fileID: 3345855714228608670}
 --- !u!222 &1901771348642801248
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -483,7 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf836d6426df4ca091d5d6a57532bb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubePrefab: {fileID: 3419746323814231901, guid: a1c016c61dd10b845812f238732e899c, type: 3}
+  cubePrefab: {fileID: 3379797750292157996, guid: b64a01a64d2639941afb5d5d19bda7a7, type: 3}
   cubesRoot: {fileID: 6533336745507235197}
 --- !u!114 &4481579160965543597
 MonoBehaviour:
