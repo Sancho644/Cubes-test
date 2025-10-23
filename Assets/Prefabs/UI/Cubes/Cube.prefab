@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4576724806394790674, guid: eeac23fb6b9c7004f920c770184c10ee, type: 3}
       propertyPath: m_BlocksRaycasts
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8927835856291724328, guid: eeac23fb6b9c7004f920c770184c10ee, type: 3}
       propertyPath: m_Pivot.x
