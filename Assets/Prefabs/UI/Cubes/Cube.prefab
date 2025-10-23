@@ -216,4 +216,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endValue: 0
   duration: 0.5
-  image: {fileID: 2566699126656635553}
+  canvasGroup: {fileID: 4861335856194620040}
