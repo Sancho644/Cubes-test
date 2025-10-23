@@ -54,10 +54,9 @@ namespace Core.Cubes
             if (index == -1)
                 return;
 
-            var stackedCube = _stackedCubes[index];
             _stackedCubes.RemoveAt(index);
             _cubesService.RemoveCubeData(cube.Id);
-            Destroy(stackedCube.gameObject);
+            Destroy(cube.gameObject);
 
             for (var i = index; i < _stackedCubes.Count; i++)
             {

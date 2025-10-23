@@ -77,7 +77,7 @@ namespace Core.Cubes
             if (cubeInsideRemoveHole)
             {
                 _cubesService.RemoveCubeFromTower(this);
-                _dragCube.StartFadeAnimation();
+                _dragCube.StartFadeAnimation(() => { Destroy(_dragCube.gameObject); });
                 return;
             }
 
@@ -96,14 +96,18 @@ namespace Core.Cubes
 
             if (!placed)
             {
-                _dragCube.StartExplosionTween();
+                _dragCube.StartExplosionTween(() =>
+                {
+                    Destroy(_dragCube.gameObject);
+                    _dragCube = null;
+                });
             }
             else
             {
                 Destroy(_dragCube.gameObject);
+                _dragCube = null;
             }
 
-            _dragCube = null;
             _dragCubeRect = null;
         }
 
@@ -122,19 +126,19 @@ namespace Core.Cubes
             fallTween.StartAnimation(targetRect, height, onComplete);
         }
 
-        private void StartExplosionTween()
-        {
-            explosionTween.StartAnimation(rect);
-        }
-
-        private void StartFadeAnimation()
-        {
-            fadeTween.StartAnimation();
-        }
-
-        private void EnableRaycasts(bool enable)
+        public void EnableRaycasts(bool enable)
         {
             canvasGroup.blocksRaycasts = enable;
+        }
+
+        private void StartExplosionTween(Action onComplete = null)
+        {
+            explosionTween.StartAnimation(rect, onComplete);
+        }
+
+        private void StartFadeAnimation(Action onComplete = null)
+        {
+            fadeTween.StartAnimation(onComplete);
         }
     }
 }
