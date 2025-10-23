@@ -3,6 +3,9 @@ using System.Linq;
 using Config;
 using Core.Cubes.Config;
 using Data;
+using GameEvents;
+using UI;
+using UI.Events;
 using UnityEngine;
 using Zenject;
 
@@ -12,6 +15,7 @@ namespace Core.Cubes.Services
     {
         [Inject] private readonly ConfigData _configData;
         [Inject] private readonly PlayerDataContainer _playerDataContainer;
+        [Inject] private readonly IGameEventsDispatcher _gameEventsDispatcher;
 
         private CubeTowerController _towerController;
         private CubeRemoveHoleController _removeHoleController;
@@ -68,7 +72,17 @@ namespace Core.Cubes.Services
                 return;
             }
 
-            _towerController.PlaceCube(cubeType, screenPos, startDragPosition);
+            var cubesCount = _towerController.GetCubesCount();
+            if (cubesCount == 0)
+            {
+                _towerController.PlaceFirstCube(cubeType, screenPos);
+                _gameEventsDispatcher.Dispatch(new CubeActionEvent(CubeActionType.Place));
+            }
+            else
+            {
+                _towerController.PlaceNextCube(cubeType, startDragPosition);
+                _gameEventsDispatcher.Dispatch(new CubeActionEvent(CubeActionType.PlaceAtTower));
+            }
         }
 
         public float GetCubeSpawnHorizontalOffset()
@@ -94,6 +108,7 @@ namespace Core.Cubes.Services
             }
 
             _towerController.RemoveCube(cube);
+            _gameEventsDispatcher.Dispatch(new CubeActionEvent(CubeActionType.Destroy));
         }
     }
 }

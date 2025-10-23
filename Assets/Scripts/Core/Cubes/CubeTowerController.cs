@@ -43,37 +43,38 @@ namespace Core.Cubes
             return canPlaceNextCube && isCubeHitOnTower;
         }
 
-        public void PlaceCube(CubeType cubeType, Vector2 screenPos, Vector2 startDragPosition)
+        public int GetCubesCount()
         {
-            var cubesCount = _stackedCubes.Count;
+            return _stackedCubes.Count;
+        }
 
-            if (cubesCount == 0)
-            {
-                var newCube = CreateCube(cubeType);
-                var newRect = newCube.GetRect();
+        public void PlaceFirstCube(CubeType cubeType, Vector2 screenPos)
+        {
+            var newCube = CreateCube(cubeType);
+            var newRect = newCube.GetRect();
 
-                newRect.position = screenPos;
-            }
-            else
+            newRect.position = screenPos;
+        }
+
+        public void RemoveCube(Cube cube)
+        {
+            var index = _stackedCubes.IndexOf(cube);
+            if (index == -1)
+                return;
+
+            var stackedCube = _stackedCubes[index];
+            _stackedCubes.RemoveAt(index);
+            Destroy(stackedCube.gameObject);
+
+            for (var i = index; i < _stackedCubes.Count; i++)
             {
-                PlaceNextCube(cubeType, startDragPosition);
+                var towerCube = _stackedCubes[i];
+                var rect = towerCube.GetRect();
+                towerCube.StartFallAnimation(rect, rect.rect.height);
             }
         }
 
-        private bool IsCubeHitOnTower()
-        {
-            var topCube = _stackedCubes[^1];
-            var topRect = topCube.GetRect();
-            var worldCorners = new Vector3[4];
-            topRect.GetWorldCorners(worldCorners);
-
-            var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
-            Vector2 mousePos = Input.mousePosition;
-
-            return RectTransformUtility.RectangleContainsScreenPoint(topRect, mousePos, cam);
-        }
-
-        private void PlaceNextCube(CubeType cubeType, Vector2 startDragPosition)
+        public void PlaceNextCube(CubeType cubeType, Vector2 startDragPosition)
         {
             var topCube = _stackedCubes[^1];
             var topRect = topCube.GetRect();
@@ -90,6 +91,19 @@ namespace Core.Cubes
             newRect.position = startDragPosition;
 
             newCube.StartJumpAnimation(newRect, position);
+        }
+
+        private bool IsCubeHitOnTower()
+        {
+            var topCube = _stackedCubes[^1];
+            var topRect = topCube.GetRect();
+            var worldCorners = new Vector3[4];
+            topRect.GetWorldCorners(worldCorners);
+
+            var cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+            Vector2 mousePos = Input.mousePosition;
+
+            return RectTransformUtility.RectangleContainsScreenPoint(topRect, mousePos, cam);
         }
 
         private bool CanPlaceNextCube()
@@ -165,24 +179,6 @@ namespace Core.Cubes
             _stackedCubes.Add(cube);
 
             return cube;
-        }
-
-        public void RemoveCube(Cube cube)
-        {
-            var index = _stackedCubes.IndexOf(cube);
-            if (index == -1)
-                return;
-
-            var stackedCube = _stackedCubes[index];
-            _stackedCubes.RemoveAt(index);
-            Destroy(stackedCube.gameObject);
-
-            for (var i = index; i < _stackedCubes.Count; i++)
-            {
-                var towerCube = _stackedCubes[i];
-                var rect = towerCube.GetRect();
-                towerCube.StartFallAnimation(rect, rect.rect.height);
-            }
         }
     }
 }

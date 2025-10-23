@@ -1,5 +1,7 @@
-using System;
 using Core.Cubes.Services;
+using GameEvents;
+using UI;
+using UI.Events;
 using UI.Tweens;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,14 +13,17 @@ namespace Core.Cubes
     {
         [SerializeField] private RectTransform rect;
         [SerializeField] private CanvasGroup canvasGroup;
-        [Header("Animations")]
-        [SerializeField] private JumpTween jumpTween;
+
+        [Header("Animations")] [SerializeField]
+        private JumpTween jumpTween;
+
         [SerializeField] private FallTween fallTween;
         [SerializeField] private ExplosionTween explosionTween;
         [SerializeField] private FadeTween fadeTween;
 
         [Inject] private readonly CubesFactory _cubesFactory;
         [Inject] private readonly CubesService _cubesService;
+        [Inject] private readonly IGameEventsDispatcher _gameEventsDispatcher;
 
         public RectTransform GetRect() => rect;
 
@@ -81,6 +86,10 @@ namespace Core.Cubes
             {
                 _cubesService.TryPlaceAtTowerScreen(CubeType, screenPoint, _startDragPosition);
                 placed = true;
+            }
+            else
+            {
+                _gameEventsDispatcher.Dispatch(new CubeActionEvent(CubeActionType.CanNotPlace));
             }
 
             if (!placed)

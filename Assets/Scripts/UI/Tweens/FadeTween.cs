@@ -9,7 +9,8 @@ namespace UI.Tweens
     {
         [SerializeField] private float endValue = 0f;
         [SerializeField] private float duration = 0.5f;
-        [SerializeField] private Image image;
+        [SerializeField] private float delay;
+        [SerializeField] private CanvasGroup canvasGroup;
 
         private Sequence _sequence;
 
@@ -27,7 +28,8 @@ namespace UI.Tweens
                 return;
 
             _sequence = DOTween.Sequence()
-                .Join(image.DOFade(endValue, duration))
+                .Join(canvasGroup.DOFade(endValue, duration))
+                .SetDelay(delay)
                 .OnComplete(() => { onComplete?.Invoke(); });
         }
     }
