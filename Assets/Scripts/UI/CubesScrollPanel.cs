@@ -8,7 +8,7 @@ namespace UI
 {
     public class CubesScrollPanel : MonoBehaviour
     {
-        [SerializeField] private CubeView cubePrefab;
+        [SerializeField] private Cube cubePrefab;
         [SerializeField] private RectTransform cubesRoot;
 
         [Inject] private readonly IInstantiator _instantiator;
@@ -23,10 +23,10 @@ namespace UI
         {
             var cubesForSpawn = _cubesService.GetCubesForSpawn();
             cubesRoot.ClearChildren();
-            
+
             foreach (var cubeType in cubesForSpawn)
             {
-                var cubeView = _instantiator.InstantiatePrefabForComponent<CubeView>(cubePrefab, cubesRoot);
+                var cubeView = _instantiator.InstantiatePrefabForComponent<Cube>(cubePrefab, cubesRoot);
                 cubeView.Setup(cubeType);
             }
         }
