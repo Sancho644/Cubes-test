@@ -332,7 +332,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8531940887489649399}
   - component: {fileID: 3538380094510263095}
-  - component: {fileID: 8404334120887067468}
   m_Layer: 5
   m_Name: Scroll
   m_TagString: Untagged
@@ -391,22 +390,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8404334120887067468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1899127120190390916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af6b497ee87046ff9a9608ff54aa3462, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dragThreshold: 10
-  horizontal: 1
-  scrollRect: {fileID: 3538380094510263095}
-  cubesScrollPanel: {fileID: 2013110325321633820}
 --- !u!1 &3417391298945384575
 GameObject:
   m_ObjectHideFlags: 0

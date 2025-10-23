@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Core.Cubes;
+﻿using Core.Cubes;
 using Core.Cubes.Services;
 using Extensions;
 using UnityEngine;
@@ -15,19 +14,9 @@ namespace UI
         [Inject] private readonly IInstantiator _instantiator;
         [Inject] private readonly CubesService _cubesService;
 
-        private readonly List<Cube> _cubesList = new();
-
         private void Start()
         {
             RefreshCubes();
-        }
-
-        public void SetCubesRaycastEnabled(bool enable)
-        {
-            foreach (var cube in _cubesList)
-            {
-                cube.EnableRaycasts(enable);
-            }
         }
 
         private void RefreshCubes()
@@ -39,7 +28,6 @@ namespace UI
             {
                 var cube = _instantiator.InstantiatePrefabForComponent<Cube>(cubePrefab, cubesRoot);
                 cube.Setup(cubeType);
-                _cubesList.Add(cube);
             }
         }
     }
