@@ -23,6 +23,7 @@ namespace Core.Cubes
 
         [Inject] private readonly CubesFactory _cubesFactory;
         [Inject] private readonly CubesService _cubesService;
+        [Inject] private readonly CanvasSettings _canvasSettings;
         [Inject] private readonly IGameEventsDispatcher _gameEventsDispatcher;
 
         public RectTransform GetRect() => rect;
@@ -33,9 +34,9 @@ namespace Core.Cubes
         private Canvas _canvas;
         private Vector2 _startDragPosition;
 
-        private void Awake()
+        private void Start()
         {
-            _canvas = GetComponentInParent<Canvas>();
+            _canvas = _canvasSettings.Canvas;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -126,7 +127,7 @@ namespace Core.Cubes
             fallTween.StartAnimation(targetRect, height, onComplete);
         }
 
-        public void EnableRaycasts(bool enable)
+        private void EnableRaycasts(bool enable)
         {
             canvasGroup.blocksRaycasts = enable;
         }

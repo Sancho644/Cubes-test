@@ -6,7 +6,7 @@ namespace Config
     public class ConfigScriptableObject : ScriptableObject
     {
         [SerializeField] private ConfigData data;
-        
+
         public ConfigData Data => data;
     }
 }
