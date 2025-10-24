@@ -9,6 +9,7 @@ namespace Core.Cubes
     public class CubeTowerController : MonoBehaviour
     {
         private const float HalfMultiplier = 0.5f;
+        private const float ToleranceValueForCubeSpawn = 200f;
         
         [SerializeField] private Canvas canvas;
         [SerializeField] private RectTransform towerAreaRect;
@@ -168,14 +169,14 @@ namespace Core.Cubes
                 allowedScreenRect = new Rect(0, 0, Screen.width, Screen.height);
             }
 
-            if (!ContainsWithTolerance(allowedScreenRect, screenTL)) return false;
-            if (!ContainsWithTolerance(allowedScreenRect, screenTR)) return false;
-            if (!ContainsWithTolerance(allowedScreenRect, screenBL)) return false;
-            if (!ContainsWithTolerance(allowedScreenRect, screenBR)) return false;
+            if (!ContainsWithTolerance(allowedScreenRect, screenTL, ToleranceValueForCubeSpawn)) return false;
+            if (!ContainsWithTolerance(allowedScreenRect, screenTR, ToleranceValueForCubeSpawn)) return false;
+            if (!ContainsWithTolerance(allowedScreenRect, screenBL, ToleranceValueForCubeSpawn)) return false;
+            if (!ContainsWithTolerance(allowedScreenRect, screenBR, ToleranceValueForCubeSpawn)) return false;
 
             return true;
 
-            bool ContainsWithTolerance(Rect rect, Vector2 point, float tolerance = 150f)
+            bool ContainsWithTolerance(Rect rect, Vector2 point, float tolerance)
             {
                 return point.x >= rect.xMin - tolerance &&
                        point.x <= rect.xMax + tolerance &&
