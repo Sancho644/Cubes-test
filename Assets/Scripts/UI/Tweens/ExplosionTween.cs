@@ -8,9 +8,15 @@ namespace UI.Tweens
 {
     public class ExplosionTween : MonoBehaviour
     {
+        [SerializeField] private float posYJumpOffset = 80f;
+        [SerializeField] private float posYJumpDuration = 0.25f;
         [SerializeField] private float increaseScale = 1.4f;
         [SerializeField] private float increaseScaleDuration = 0.25f;
+        [SerializeField] private float fadeDuration = 0.3f;
+        [SerializeField] private float rotationDuration = 0.3f;
         [SerializeField] private Image image;
+        [SerializeField] private Ease ease = Ease.OutQuad;
+        [SerializeField] private RotateMode rotateMode = RotateMode.FastBeyond360;
 
         private Sequence _sequence;
 
@@ -30,10 +36,10 @@ namespace UI.Tweens
             var randomAngle = Random.Range(-180f, 180f);
 
             _sequence = DOTween.Sequence()
-                .Append(targetRect.DOAnchorPosY(targetRect.anchoredPosition.y + 80f, 0.25f).SetEase(Ease.OutQuad))
-                .Join(targetRect.DOScale(increaseScale, increaseScaleDuration).SetEase(Ease.OutQuad))
-                .Join(image.DOFade(0f, 0.3f))
-                .Join(targetRect.DORotate(new Vector3(0f, 0f, randomAngle), 0.3f, RotateMode.FastBeyond360))
+                .Append(targetRect.DOAnchorPosY(targetRect.anchoredPosition.y + posYJumpOffset, posYJumpDuration).SetEase(ease))
+                .Join(targetRect.DOScale(increaseScale, increaseScaleDuration).SetEase(ease))
+                .Join(image.DOFade(0f, fadeDuration))
+                .Join(targetRect.DORotate(new Vector3(0f, 0f, randomAngle), rotationDuration,rotateMode))
                 .OnComplete(() => { onComplete?.Invoke(); });
         }
     }

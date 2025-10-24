@@ -7,7 +7,8 @@ namespace GameEvents
     {
         [Inject] private readonly IGameEventsDispatcher _gameEventsDispatcher;
 
-        private void Update() {
+        private void Update()
+        {
             while (_gameEventsDispatcher.HasEventInQueue())
             {
                 _gameEventsDispatcher.InvokeEventInQueue();

@@ -7,7 +7,7 @@ namespace GameManager
     public class GameLifecycleController : MonoBehaviour
     {
         [Inject] private readonly PlayerDataContainer _playerDataContainer;
-        
+
         private void OnApplicationQuit()
         {
             ApplicationClosed();

@@ -8,6 +8,8 @@ namespace Core.Cubes
 {
     public class CubeTowerController : MonoBehaviour
     {
+        private const float HalfMultiplier = 0.5f;
+        
         [SerializeField] private Canvas canvas;
         [SerializeField] private RectTransform towerAreaRect;
         [SerializeField] private RectTransform cubesRoot;
@@ -90,7 +92,7 @@ namespace Core.Cubes
             topRect.GetWorldCorners(worldCorners);
             var cubeHeight = topRect.rect.height;
             var horizontalOffset = _cubesService.GetCubeSpawnHorizontalOffset();
-            var maxOffset = topRect.rect.width * horizontalOffset * 0.5f;
+            var maxOffset = topRect.rect.width * horizontalOffset * HalfMultiplier;
             var randOffset = Random.Range(-maxOffset, maxOffset);
             var topAnch = topRect.anchoredPosition;
             var position = topAnch + new Vector2(randOffset, cubeHeight);
@@ -131,17 +133,17 @@ namespace Core.Cubes
 
             var cubeWorldHeight = topRect.rect.height * topRect.lossyScale.y;
             var cubeWorldWidth = topRect.rect.width * topRect.lossyScale.x;
-            var topCenterWorld = (topWorldCorners[1] + topWorldCorners[2]) * 0.5f;
+            var topCenterWorld = (topWorldCorners[1] + topWorldCorners[2]) * HalfMultiplier;
 
             var horizontalOffset = _cubesService.GetCubeSpawnHorizontalOffset();
-            var maxOffsetWorld = (cubeWorldWidth * 0.5f) * horizontalOffset;
+            var maxOffsetWorld = (cubeWorldWidth * HalfMultiplier) * horizontalOffset;
             var randOffsetWorld = Random.Range(-maxOffsetWorld, maxOffsetWorld);
 
             var newCubeCenterWorld =
                 topCenterWorld + Vector3.up * (cubeWorldHeight) + Vector3.right * randOffsetWorld;
 
-            var halfRight = Vector3.right * (cubeWorldWidth * 0.5f);
-            var halfUp = Vector3.up * (cubeWorldHeight * 0.5f);
+            var halfRight = Vector3.right * (cubeWorldWidth * HalfMultiplier);
+            var halfUp = Vector3.up * (cubeWorldHeight * HalfMultiplier);
             var cornerTL = newCubeCenterWorld + halfUp - halfRight;
             var cornerTR = newCubeCenterWorld + halfUp + halfRight;
             var cornerBL = newCubeCenterWorld - halfUp - halfRight;

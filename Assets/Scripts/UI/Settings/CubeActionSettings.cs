@@ -15,7 +15,7 @@ namespace UI.Settings
             public CubeActionType actionType;
             public string actionText;
         }
-        
+
         [SerializeField] private List<ConcreteCubeActionSettings> cubeActionSettings;
 
         public string GetActionText(CubeActionType actionType)
