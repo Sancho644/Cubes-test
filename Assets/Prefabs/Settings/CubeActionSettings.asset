@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubeActionSettings:
   - actionType: 1
-    actionText: The cube is installed
+    actionText: cube_installed
   - actionType: 2
-    actionText: The cube is destroyed
+    actionText: cube_destroyed
   - actionType: 3
-    actionText: The cube does not fit
+    actionText: cube_not_fit
   - actionType: 4
-    actionText: The cube is placed in the tower
+    actionText: cube_placed
