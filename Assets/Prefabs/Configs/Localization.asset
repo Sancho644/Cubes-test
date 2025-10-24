@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ce0d3fb986a4d2bbd59504f8fd4feb3, type: 3}
+  m_Name: Localization
+  m_EditorClassIdentifier: 
+  localizationConfig:
+    languages:
+      localizedPhrases:
+      - localizationKey: cube_installed
+        localizedTexts:
+        - localizationType: 1
+          text: The cube is installed
+      - localizationKey: cube_destroyed
+        localizedTexts:
+        - localizationType: 1
+          text: The cube is destroyed
+      - localizationKey: cube_not_fit
+        localizedTexts:
+        - localizationType: 1
+          text: The cube does not fit
+      - localizationKey: cube_placed
+        localizedTexts:
+        - localizationType: 1
+          text: The cube is placed in the tower

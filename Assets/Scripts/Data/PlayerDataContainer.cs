@@ -1,5 +1,6 @@
 using System.IO;
 using System.Runtime.Serialization;
+using Localization.Config;
 using UnityEngine;
 using Zenject;
 
@@ -64,6 +65,7 @@ namespace Data
         private PlayerData CreateDefaultPlayerData()
         {
             var playerData = _instantiator.Instantiate<PlayerData>();
+            playerData.languageData.localizationType = LocalizationType.English;
 
             return playerData;
         }
